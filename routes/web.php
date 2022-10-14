@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
@@ -20,6 +21,9 @@ Route::get('/', function () {
         "mahasiswas" => Mahasiswa::all()
     ]);
 });
+Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
+Route::get('/mahasiswa/{mahasiswa}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
 
 Route::get('/user/{nama}', function ($nama) {
     return 'Halo ' . $nama;
@@ -30,3 +34,5 @@ Route::get('/login', function () {
         'title' => 'Halaman Login'
     ]);
 })->name('login');
+
+
