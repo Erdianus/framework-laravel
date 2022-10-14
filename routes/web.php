@@ -3,6 +3,8 @@
 use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Prodi;
+use App\Models\User;
+use App\Http\Controllers\AuthController;
 use App\Models\Mahasiswa;
 
 /*
@@ -17,9 +19,10 @@ use App\Models\Mahasiswa;
 */
 
 Route::get('/', function () {
-    return view('home', [
+    return view ('home',[
+        "prodis" => Prodi::all(),
         "mahasiswas" => Mahasiswa::all()
-    ]);
+        ]);
 });
 Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
 Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
@@ -29,10 +32,18 @@ Route::get('/user/{nama}', function ($nama) {
     return 'Halo ' . $nama;
 });
 
-Route::get('/login', function () {
-    return view('login', [
-        'title' => 'Halaman Login'
-    ]);
-})->name('login');
+Route::get('/login', 
+    [AuthController::class, 'loginView'])->name('login');
 
+Route::post('/action-login', 
+    [AuthController::class, 'actionLogin']);
 
+Route::get('/register', function(){
+    return view('register');
+})->name("register");
+
+Route::post('/action-register', 
+    [AuthController::class, 'actionRegister']);
+    
+Route::get('/logout', 
+    [AuthController::class, 'logout']);
